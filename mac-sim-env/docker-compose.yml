@@ -1,0 +1,14 @@
+services:
+  ros:
+    build: .
+    image: mte544-humble
+    container_name: mte544
+    ports:
+      - "6080:80"          # open http://localhost:6080 for the desktop
+    shm_size: "2gb"        # Gazebo needs more shared memory than Docker's 64 MB default
+    environment:
+      - RESOLUTION=1600x1000
+    volumes:
+      # Your lab code on the Mac <-> /mte544 inside the container (edit in VS Code, run in the container)
+      - ./workspace:/mte544
+    restart: unless-stopped
