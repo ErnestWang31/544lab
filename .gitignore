@@ -1,0 +1,4 @@
+__pycache__/
+.DS_Store
+# sim logs in the root are huge; put real-robot data in data/
+/*.csv
