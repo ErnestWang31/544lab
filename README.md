@@ -1,7 +1,5 @@
 # 544lab — MTE544 group repo
 
-Private repo for our MTE544 labs. **Don't make it public or fork it publicly** — it has graded solutions.
-
 ## Layout
 
 | Branch | What's in it |
