@@ -24,7 +24,15 @@ class Logger:
             vals_str=""
 
             # TODO Part 5: Write the values from the list to the file
-            ...
+            # Comma-separated, matching the header format. A list value (e.g. laser ranges) is
+            # written as ONE field with space-separated entries so the number of columns stays
+            # equal to the number of headers.
+            for value in values_list:
+                if isinstance(value, (list, tuple)):
+                    vals_str+=" ".join(str(v) for v in value)
+                else:
+                    vals_str+=str(value)
+                vals_str+=", "
             
             vals_str+="\n"
             
@@ -70,9 +78,14 @@ class FileReader:
                 row=[]                
                 
                 for val in values:
+                    val=val.strip()
                     if val=='':
                         break
-                    row.append(float(val.strip()))
+                    if ' ' in val:
+                        # space-separated array field (laser ranges); float() handles inf/nan
+                        row.append([float(v) for v in val.split()])
+                    else:
+                        row.append(float(val))
 
                 table.append(row)
         
@@ -85,7 +98,13 @@ def euler_from_quaternion(quat):
     Convert quaternion (w in last place) to euler roll, pitch, yaw.
     quat = [x, y, z, w]
     """
-    ... # just unpack yaw
+    x, y, z, w = quat
+
+    # ZYX (yaw-pitch-roll) convention; only yaw is needed for planar motion
+    siny_cosp = 2.0 * (w * z + x * y)
+    cosy_cosp = 1.0 - 2.0 * (y * y + z * z)
+    yaw = atan2(siny_cosp, cosy_cosp)
+
     return yaw
 
 
